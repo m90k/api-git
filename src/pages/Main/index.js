@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { FaGithub, FaPlus, FaSpinner } from 'react-icons/fa';
-import { Container, Title, Form, SButton } from './styles';
+import { Link } from 'react-router-dom';
+import { Title, Form, SButton, List } from './styles';
 import api from '../../services/api';
+import Container from '../../components/Container';
 
 // eslint-disable-next-line react/prefer-stateless-function
 export default class Main extends Component {
@@ -10,6 +12,20 @@ export default class Main extends Component {
     repositories: [],
     loading: false,
   };
+
+  componentDidMount() {
+    const repositories = localStorage.getItem('repositorios');
+    if (repositories) {
+      this.setState({ repositories: JSON.parse(repositories) });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    const { repositories } = this.state;
+    if (prevState.repositories !== repositories) {
+      localStorage.setItem('repositorios', JSON.stringify(repositories));
+    }
+  }
 
   handleInputChange = e => {
     this.setState({ newRepo: e.target.value });
@@ -33,7 +49,7 @@ export default class Main extends Component {
   };
 
   render() {
-    const { newRepo, loading } = this.state;
+    const { newRepo, loading, repositories } = this.state;
     return (
       <Container>
         <Title>
@@ -56,6 +72,17 @@ export default class Main extends Component {
             )}
           </SButton>
         </Form>
+
+        <List>
+          {repositories.map(repository => (
+            <li key={repository.name}>
+              <span>{repository.name}</span>
+              <Link to={`/repositorio/${encodeURIComponent(repository.name)}`}>
+                Detalhes{' '}
+              </Link>
+            </li>
+          ))}
+        </List>
       </Container>
     );
   }

@@ -1,14 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
 
-export const Container = styled.div`
-  max-width: 60em;
-  margin: 60px auto;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-  padding: 30px;
-  border-radius: 20px;
-`;
-
 export const Title = styled.h1`
   color: #333;
   display: flex;
@@ -73,3 +64,25 @@ export const SButton = styled.button.attrs(props => ({
     `}
 
   }`;
+
+export const List = styled.ul`
+  list-style: none;
+  margin-top: 20px;
+
+  li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px 0;
+
+    & + li {
+      border-top: 2px solid #333;
+    }
+
+    a {
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #7159c1;
+    }
+  }
+`;
